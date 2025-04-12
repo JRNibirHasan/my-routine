@@ -1,225 +1,141 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>দৈনিক রুটিন</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            transition: background-color 0.3s ease;
-        }
-        .container {
-            width: 85%;
-            max-width: 900px;
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            overflow: hidden;
-            animation: fadeIn 0.8s ease-out;
-            transition: all 0.3s ease;
-        }
-        h1 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 30px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            padding: 20px;
-            text-align: center;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            transition: background-color 0.3s ease;
-        }
-        th {
-            background-color: #2b5d7d;
-            color: white;
-            font-weight: bold;
-        }
-        td {
-            background-color: #fafafa;
-        }
-        tr:nth-child(even) td {
-            background-color: #f2f2f2;
-        }
-        tr:hover td {
-            background-color: #d7e8f4;
-        }
-        input[type="text"], input[type="time"] {
-            padding: 10px;
-            font-size: 16px;
-            width: 90%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-top: 10px;
-            outline: none;
-        }
-        input[type="text"]:focus, input[type="time"]:focus {
-            border-color: #2b5d7d;
-        }
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-        }
-        .btn {
-            padding: 12px 30px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 8px;
-            border: none;
-            transition: transform 0.2s ease;
-        }
-        .btn:hover {
-            transform: scale(1.05);
-        }
-        .add-slot {
-            background-color: #FF7F50;
-            color: white;
-        }
-        .save {
-            background-color: #28a745;
-            color: white;
-        }
-        .reset {
-            background-color: #dc3545;
-            color: white;
-        }
-        .mode-switch {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .mode-switch button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #2b5d7d;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            transition: transform 0.2s ease;
-        }
-        .mode-switch button:hover {
-            transform: scale(1.1);
-        }
-        .dark-mode {
-            background-color: #333;
-            color: white;
-        }
-        .dark-mode .container {
-            background-color: #444;
-        }
-        .dark-mode th {
-            background-color: #222;
-        }
-        .dark-mode td {
-            background-color: #555;
-        }
-        .dark-mode tr:nth-child(even) td {
-            background-color: #666;
-        }
-        .dark-mode tr:hover td {
-            background-color: #888;
-        }
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Routine</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      transition: all 0.3s ease;
+    }
+    .dark-mode {
+      background-color: #121212;
+      color: white;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-size: 24px;
+      border-bottom: 2px solid #ddd;
+    }
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .slot {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      margin-top: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .slot input {
+      margin-right: 10px;
+    }
+    .profile-container {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .profile-container img {
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+    }
+    .theme-toggle {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .theme-toggle input {
+      margin-right: 10px;
+    }
+    /* Light mode styles */
+    .light-mode {
+      background-color: #fff;
+      color: #000;
+    }
+  </style>
 </head>
 <body>
-
-    <div id="body" class="light-mode">
-        <div class="container">
-            <h1>দৈনিক রুটিন</h1>
-
-            <table id="schedule">
-                <thead>
-                    <tr>
-                        <th>সময়</th>
-                        <th>কাজ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>সকাল ৬:০০</td>
-                        <td><input type="text" value="প্রার্থনা" /></td>
-                    </tr>
-                    <tr>
-                        <td>সকাল ৭:০০</td>
-                        <td><input type="text" value="ব্যায়াম" /></td>
-                    </tr>
-                    <tr>
-                        <td>সকাল ৮:০০</td>
-                        <td><input type="text" value="পড়াশোনা" /></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="controls">
-                <button class="btn add-slot" onclick="addSlot()">➕ Add Slot</button>
-                <button class="btn save" onclick="saveSchedule()">✅ Save</button>
-                <button class="btn reset" onclick="resetSchedule()">❌ Reset</button>
-            </div>
-
-            <div class="mode-switch">
-                <button onclick="toggleMode()">🌙 Light/Dark Mode</button>
-            </div>
-        </div>
+  <header>
+    <h1>Student Routine</h1>
+  </header>
+  
+  <div class="container">
+    <div class="profile-container">
+      <img src="https://via.placeholder.com/100" alt="Profile Image">
+      <h3>John Doe</h3>
+    </div>
+    
+    <div class="theme-toggle">
+      <label for="theme">Switch Theme: </label>
+      <input type="checkbox" id="theme">
+    </div>
+    
+    <div class="slot">
+      <input type="text" id="subject1" placeholder="Enter Subject">
+      <button class="btn">Add Slot</button>
+    </div>
+    
+    <div class="slot">
+      <input type="text" id="subject2" placeholder="Enter Subject">
+      <button class="btn">Add Slot</button>
     </div>
 
-    <script>
-        function addSlot() {
-            const table = document.querySelector("#schedule tbody");
-            const newRow = document.createElement("tr");
+    <button class="btn" onclick="saveRoutine()">Save Routine</button>
+    <button class="btn" onclick="resetRoutine()">Reset Routine</button>
+  </div>
 
-            newRow.innerHTML = `
-                <td><input type="text" placeholder="সময়" /></td>
-                <td><input type="text" placeholder="কাজ" /></td>
-            `;
-            table.appendChild(newRow);
-        }
+  <script>
+    // Dark and Light Theme Toggle
+    const themeToggle = document.getElementById('theme');
+    themeToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode', themeToggle.checked);
+    });
+    
+    // Add routine slot dynamically
+    document.querySelectorAll('.btn')[0].addEventListener('click', () => {
+      const subjectInput = document.getElementById('subject1').value;
+      if (subjectInput) {
+        alert(`Slot Added for: ${subjectInput}`);
+      }
+    });
 
-        function saveSchedule() {
-            const rows = document.querySelectorAll("#schedule tbody tr");
-            rows.forEach(row => {
-                const time = row.children[0].querySelector("input").value;
-                const task = row.children[1].querySelector("input").value;
-                console.log(`সময়: ${time}, কাজ: ${task}`);
-            });
-            alert("রুটিন সেভ হয়েছে!");
-        }
+    // Save Routine Functionality
+    function saveRoutine() {
+      alert('Routine Saved!');
+    }
 
-        function resetSchedule() {
-            const inputs = document.querySelectorAll("input[type='text']");
-            inputs.forEach(input => {
-                input.value = "";
-            });
-        }
-
-        function toggleMode() {
-            const body = document.getElementById("body");
-            body.classList.toggle("dark-mode");
-            body.classList.toggle("light-mode");
-        }
-    </script>
-
+    // Reset Routine Functionality
+    function resetRoutine() {
+      alert('Routine Reset!');
+      document.getElementById('subject1').value = '';
+      document.getElementById('subject2').value = '';
+    }
+  </script>
 </body>
 </html>
