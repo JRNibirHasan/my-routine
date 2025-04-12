@@ -1,104 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Stylish Routine</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📘 My Stylish Routine</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
+      padding: 0;
       background: linear-gradient(to right, #f0f4f8, #e3f2fd);
+      color: #333;
+      transition: background 0.3s ease;
     }
+
+    .hidden {
+      display: none;
+    }
+
+    h1 {
+      text-align: center;
+      color: #388e3c;
+      margin-top: 40px;
+      font-size: 40px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
     .header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
+      padding: 20px 40px;
       background-color: #4caf50;
       color: white;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
-    .profile img {
+
+    .header .profile img {
       border-radius: 50%;
       width: 50px;
       height: 50px;
       object-fit: cover;
     }
+
+    .header .name {
+      font-size: 22px;
+      font-weight: bold;
+      margin-left: 15px;
+    }
+
     nav {
       display: flex;
       justify-content: center;
       background-color: #388e3c;
       padding: 10px 0;
     }
+
     nav a {
       color: white;
       text-decoration: none;
-      margin: 0 15px;
+      margin: 0 20px;
       font-size: 18px;
+      padding: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
       cursor: pointer;
     }
-    .section {
-      display: none;
-      padding: 40px 20px;
-      text-align: center;
+
+    nav a:hover {
+      background-color: #2c6c2f;
     }
-    .active {
-      display: block;
+
+    .profile-form, .routine-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
     }
-    input, button, select {
+
+    .profile-form input {
+      margin: 10px;
       padding: 10px;
-      margin: 5px;
+      font-size: 16px;
+      width: 300px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+    }
+
+    .profile-form button {
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
       font-size: 16px;
     }
+
     table {
-      width: 100%;
+      width: 90%;
       max-width: 800px;
-      margin: 20px auto;
+      margin-top: 20px;
       border-collapse: collapse;
       background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
     }
+
     th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
+      border: 1px solid #ccc;
     }
+
     th {
       background-color: #4caf50;
       color: white;
     }
+
+    .footer-buttons button {
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+
   <div class="header">
-    <div class="logo"><strong>📘 My Stylish Routine</strong></div>
     <div class="profile">
-      <img id="profilePic" src="https://via.placeholder.com/50" alt="Profile Picture" />
+      <img id="profileImage" src="https://via.placeholder.com/50" alt="Profile Picture">
     </div>
+    <div class="name" id="studentNameDisplay">Welcome</div>
   </div>
 
   <nav>
-    <a onclick="showSection('home')">Home</a>
-    <a onclick="showSection('profile')">Profile</a>
+    <a onclick="showProfile()">Profile</a>
+    <a onclick="showRoutine()">Home</a>
   </nav>
 
-  <div id="profile" class="section active">
-    <h2>Student Profile Setup</h2>
-    <input type="text" id="name" placeholder="Your Name" /><br />
-    <input type="text" id="college" placeholder="College Name" /><br />
-    <input type="text" id="department" placeholder="Department" /><br />
-    <input type="text" id="class" placeholder="Class" /><br />
-    <input type="text" id="phone" placeholder="Phone Number" /><br />
-    <input type="file" id="picInput" accept="image/*" /><br />
+  <div class="profile-form" id="profileForm">
+    <h2>Create Your Profile</h2>
+    <input type="text" id="name" placeholder="Your Name">
+    <input type="text" id="college" placeholder="College Name">
+    <input type="text" id="department" placeholder="Department">
+    <input type="text" id="classLevel" placeholder="Class">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <input type="file" id="profilePic" accept="image/*">
     <button onclick="saveProfile()">Save Profile</button>
   </div>
 
-  <div id="home" class="section">
-    <h2>My Routine</h2>
-    <input type="time" id="startTime" />
-    <input type="time" id="endTime" />
-    <input type="text" id="subject" placeholder="Subject" />
-    <button onclick="addRow()">Add</button>
+  <div class="routine-section hidden" id="routineSection">
+    <h2>Your Routine</h2>
+    <div>
+      <input type="time" id="startTime">
+      <input type="time" id="endTime">
+      <input type="text" id="subject" placeholder="Subject">
+      <button onclick="addRow()">➕ Add Slot</button>
+    </div>
 
     <table id="routineTable">
       <tr>
@@ -108,69 +172,124 @@
         <th>Action</th>
       </tr>
     </table>
+
+    <div class="footer-buttons">
+      <button onclick="saveRoutine()">💾 Save</button>
+      <button onclick="loadRoutine()">🔁 Load</button>
+      <button onclick="resetRoutine()">❌ Reset</button>
+    </div>
   </div>
 
   <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-
     function saveProfile() {
       const name = document.getElementById("name").value;
       const college = document.getElementById("college").value;
       const department = document.getElementById("department").value;
-      const cls = document.getElementById("class").value;
+      const classLevel = document.getElementById("classLevel").value;
       const phone = document.getElementById("phone").value;
-      const pic = document.getElementById("picInput").files[0];
+      const fileInput = document.getElementById("profilePic");
 
-      if (pic) {
+      if (fileInput.files.length > 0) {
         const reader = new FileReader();
-        reader.onload = function (e) {
-          document.getElementById("profilePic").src = e.target.result;
+        reader.onload = function(e) {
+          document.getElementById("profileImage").src = e.target.result;
         };
-        reader.readAsDataURL(pic);
+        reader.readAsDataURL(fileInput.files[0]);
       }
 
-      const info = { name, college, department, cls, phone };
-      localStorage.setItem("studentProfile", JSON.stringify(info));
-      alert("Profile saved!");
+      document.getElementById("studentNameDisplay").innerText = name;
+      localStorage.setItem("profile", JSON.stringify({ name, college, department, classLevel, phone }));
+
+      document.getElementById("profileForm").classList.add("hidden");
+      document.getElementById("routineSection").classList.remove("hidden");
+    }
+
+    function showRoutine() {
+      document.getElementById("profileForm").classList.add("hidden");
+      document.getElementById("routineSection").classList.remove("hidden");
+    }
+
+    function showProfile() {
+      document.getElementById("profileForm").classList.remove("hidden");
+      document.getElementById("routineSection").classList.add("hidden");
     }
 
     function addRow() {
-      const start = document.getElementById("startTime").value;
-      const end = document.getElementById("endTime").value;
-      const subject = document.getElementById("subject").value;
-      if (!start || !end || !subject) return alert("Fill all fields!");
-
-      const table = document.getElementById("routineTable");
-      const row = table.insertRow();
+      let start = document.getElementById("startTime").value;
+      let end = document.getElementById("endTime").value;
+      let subject = document.getElementById("subject").value;
+      if (!start || !end || !subject) {
+        alert("সব ঘর পূরণ করো!");
+        return;
+      }
+      let table = document.getElementById("routineTable");
+      let row = table.insertRow();
       row.innerHTML = `
-        <td>${start}</td>
-        <td>${end}</td>
-        <td>${subject}</td>
-        <td><button onclick="deleteRow(this)">❌</button></td>
+        <td><input value="${start}"></td>
+        <td><input value="${end}"></td>
+        <td><input value="${subject}"></td>
+        <td><button onclick="deleteRow(this)">🗑️</button></td>
       `;
-
-      document.getElementById("startTime").value = "";
-      document.getElementById("endTime").value = "";
-      document.getElementById("subject").value = "";
     }
 
     function deleteRow(btn) {
       btn.closest('tr').remove();
     }
 
+    function saveRoutine() {
+      let table = document.getElementById("routineTable");
+      let data = [];
+      for (let i = 1; i < table.rows.length; i++) {
+        let row = table.rows[i];
+        data.push({
+          start: row.cells[0].children[0].value,
+          end: row.cells[1].children[0].value,
+          subject: row.cells[2].children[0].value
+        });
+      }
+      localStorage.setItem("myRoutine", JSON.stringify(data));
+      alert("Routine saved ✅");
+    }
+
+    function loadRoutine() {
+      let data = JSON.parse(localStorage.getItem("myRoutine") || "[]");
+      let table = document.getElementById("routineTable");
+      table.innerHTML = `
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Subject</th>
+          <th>Action</th>
+        </tr>
+      `;
+      data.forEach(item => {
+        let row = table.insertRow();
+        row.innerHTML = `
+          <td><input value="${item.start}"></td>
+          <td><input value="${item.end}"></td>
+          <td><input value="${item.subject}"></td>
+          <td><button onclick="deleteRow(this)">🗑️</button></td>
+        `;
+      });
+    }
+
+    function resetRoutine() {
+      if (confirm("তুই কি সত্যিই সব মুছে ফেলতে চাস?")) {
+        localStorage.removeItem("myRoutine");
+        loadRoutine();
+      }
+    }
+
     window.onload = function () {
-      const saved = JSON.parse(localStorage.getItem("studentProfile"));
-      if (saved) {
-        document.getElementById("name").value = saved.name;
-        document.getElementById("college").value = saved.college;
-        document.getElementById("department").value = saved.department;
-        document.getElementById("class").value = saved.cls;
-        document.getElementById("phone").value = saved.phone;
+      loadRoutine();
+      let profile = JSON.parse(localStorage.getItem("profile"));
+      if (profile) {
+        document.getElementById("studentNameDisplay").innerText = profile.name;
+        document.getElementById("profileForm").classList.add("hidden");
+        document.getElementById("routineSection").classList.remove("hidden");
       }
     };
   </script>
+
 </body>
 </html>
