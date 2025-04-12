@@ -3,139 +3,257 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Routine</title>
+  <title>📘 My Stylish Routine</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #e8f5e9);
       margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
+      padding: 30px;
       transition: all 0.3s ease;
     }
+
     .dark-mode {
-      background-color: #121212;
+      background: #121212;
       color: white;
     }
-    header {
-      background-color: #007bff;
-      color: white;
-      padding: 10px;
+
+    h1 {
       text-align: center;
-      font-size: 24px;
-      border-bottom: 2px solid #ddd;
+      color: #2e7d32;
+      animation: fadeIn 1s ease-in;
     }
-    .container {
-      width: 90%;
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    .btn {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-right: 10px;
-    }
-    .btn:hover {
-      background-color: #0056b3;
-    }
-    .slot {
+
+    .controls {
       display: flex;
-      justify-content: space-between;
-      padding: 8px;
-      margin-top: 15px;
-      border: 1px solid #ddd;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      animation: slideIn 1s ease;
+    }
+
+    .controls input, .controls button {
+      padding: 12px;
+      border: 1px solid #bbb;
       border-radius: 5px;
+      font-size: 16px;
     }
-    .slot input {
-      margin-right: 10px;
+
+    .controls button {
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    .profile-container {
+
+    .controls button:hover {
+      background-color: #388e3c;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      animation: fadeIn 1.5s ease;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
       text-align: center;
-      margin-bottom: 30px;
     }
-    .profile-container img {
-      border-radius: 50%;
-      width: 100px;
-      height: 100px;
+
+    input.time, input.subject {
+      width: 90%;
+      padding: 5px;
+      border: none;
+      background: #f9f9f9;
+      text-align: center;
+      font-weight: bold;
     }
-    .theme-toggle {
+
+    .footer-buttons {
       text-align: center;
       margin-top: 20px;
     }
-    .theme-toggle input {
+
+    .footer-buttons button {
+      margin: 0 10px;
+      padding: 12px 20px;
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .footer-buttons button:hover {
+      background-color: #f57c00;
+    }
+
+    .theme-toggle {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .theme-toggle label {
       margin-right: 10px;
     }
-    /* Light mode styles */
-    .light-mode {
-      background-color: #fff;
-      color: #000;
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      .controls {
+        flex-direction: column;
+        width: 100%;
+      }
+      .controls input, .controls button {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      table {
+        font-size: 14px;
+      }
+      .footer-buttons button {
+        padding: 8px 15px;
+      }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Student Routine</h1>
-  </header>
-  
-  <div class="container">
-    <div class="profile-container">
-      <img src="https://via.placeholder.com/100" alt="Profile Image">
-      <h3>John Doe</h3>
-    </div>
-    
-    <div class="theme-toggle">
-      <label for="theme">Switch Theme: </label>
-      <input type="checkbox" id="theme">
-    </div>
-    
-    <div class="slot">
-      <input type="text" id="subject1" placeholder="Enter Subject">
-      <button class="btn">Add Slot</button>
-    </div>
-    
-    <div class="slot">
-      <input type="text" id="subject2" placeholder="Enter Subject">
-      <button class="btn">Add Slot</button>
-    </div>
 
-    <button class="btn" onclick="saveRoutine()">Save Routine</button>
-    <button class="btn" onclick="resetRoutine()">Reset Routine</button>
+  <h1>📘 My Stylish Routine</h1>
+
+  <!-- Theme Toggle -->
+  <div class="theme-toggle">
+    <label for="themeToggle">Switch to Dark Mode</label>
+    <input type="checkbox" id="themeToggle">
+  </div>
+
+  <div class="controls">
+    <input type="time" id="startTime" required>
+    <input type="time" id="endTime" required>
+    <input type="text" id="subject" placeholder="Subject" required>
+    <button onclick="addRow()">➕ Add Slot</button>
+  </div>
+
+  <table id="routineTable">
+    <tr>
+      <th>Start Time</th>
+      <th>End Time</th>
+      <th>Subject</th>
+      <th>Action</th>
+    </tr>
+  </table>
+
+  <div class="footer-buttons">
+    <button onclick="saveRoutine()">💾 Save</button>
+    <button onclick="loadRoutine()">🔁 Load</button>
+    <button onclick="resetRoutine()">❌ Reset</button>
   </div>
 
   <script>
-    // Dark and Light Theme Toggle
-    const themeToggle = document.getElementById('theme');
-    themeToggle.addEventListener('change', () => {
-      document.body.classList.toggle('dark-mode', themeToggle.checked);
+    // Dark Mode Toggle
+    document.getElementById("themeToggle").addEventListener("change", function() {
+      document.body.classList.toggle("dark-mode");
     });
-    
-    // Add routine slot dynamically
-    document.querySelectorAll('.btn')[0].addEventListener('click', () => {
-      const subjectInput = document.getElementById('subject1').value;
-      if (subjectInput) {
-        alert(`Slot Added for: ${subjectInput}`);
+
+    // Add Slot Function
+    function addRow() {
+      let start = document.getElementById("startTime").value;
+      let end = document.getElementById("endTime").value;
+      let subject = document.getElementById("subject").value;
+
+      if (!start || !end || !subject) {
+        alert("সব ঘর পূরণ করো!");
+        return;
       }
-    });
 
-    // Save Routine Functionality
+      let table = document.getElementById("routineTable");
+      let row = table.insertRow();
+      row.innerHTML = `
+        <td><input class="time" value="${start}"></td>
+        <td><input class="time" value="${end}"></td>
+        <td><input class="subject" value="${subject}"></td>
+        <td><button onclick="deleteRow(this)">🗑️</button></td>
+      `;
+
+      document.getElementById("startTime").value = "";
+      document.getElementById("endTime").value = "";
+      document.getElementById("subject").value = "";
+    }
+
+    // Delete Slot Function
+    function deleteRow(btn) {
+      let row = btn.parentNode.parentNode;
+      row.parentNode.removeChild(row);
+    }
+
+    // Save Routine
     function saveRoutine() {
-      alert('Routine Saved!');
+      let table = document.getElementById("routineTable");
+      let data = [];
+      for (let i = 1; i < table.rows.length; i++) {
+        let row = table.rows[i];
+        data.push({
+          start: row.cells[0].children[0].value,
+          end: row.cells[1].children[0].value,
+          subject: row.cells[2].children[0].value
+        });
+      }
+      localStorage.setItem("myRoutine", JSON.stringify(data));
+      alert("Routine saved ✅");
     }
 
-    // Reset Routine Functionality
-    function resetRoutine() {
-      alert('Routine Reset!');
-      document.getElementById('subject1').value = '';
-      document.getElementById('subject2').value = '';
+    // Load Routine
+    function loadRoutine() {
+      let data = JSON.parse(localStorage.getItem("myRoutine") || "[]");
+      let table = document.getElementById("routineTable");
+      table.innerHTML = `
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Subject</th>
+          <th>Action</th>
+        </tr>
+      `;
+      data.forEach(item => {
+        let row = table.insertRow();
+        row.innerHTML = `
+          <td><input class="time" value="${item.start}"></td>
+          <td><input class="time" value="${item.end}"></td>
+          <td><input class="subject" value="${item.subject}"></td>
+          <td><button onclick="deleteRow(this)">🗑️</button></td>
+        `;
+      });
     }
+
+    // Reset Routine
+    function resetRoutine() {
+      if (confirm("তুই কি সত্যিই সব মুছে ফেলতে চাস?")) {
+        localStorage.removeItem("myRoutine");
+        loadRoutine();
+      }
+    }
+
+    window.onload = loadRoutine;
   </script>
+
 </body>
 </html>
