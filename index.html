@@ -5,225 +5,249 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>📘 My Stylish Routine</title>
   <style>
-    /* Style for body and layout */
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #e8f5e9);
       margin: 0;
-      padding: 30px;
+      padding: 0;
+      background: linear-gradient(to right, #f0f4f8, #e3f2fd);
+      color: #333;
+      transition: background 0.3s ease;
     }
 
     h1 {
       text-align: center;
-      color: #2e7d32;
+      color: #388e3c;
+      margin-top: 40px;
+      font-size: 40px;
+      animation: fadeIn 2s ease-in-out;
     }
 
-    /* Controls for adding subject slots */
-    .controls {
+    /* Header Section */
+    .header {
       display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .controls input, .controls button {
-      padding: 10px;
-      border: 1px solid #bbb;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    .controls button {
+      justify-content: space-between;
+      padding: 20px 40px;
       background-color: #4caf50;
       color: white;
-      cursor: pointer;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      position: relative;
     }
 
-    .controls button:hover {
+    .header .profile img {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+    }
+
+    .header .name {
+      font-size: 22px;
+      font-weight: bold;
+      margin-left: 15px;
+    }
+
+    /* Navigation Bar */
+    nav {
+      display: flex;
+      justify-content: center;
       background-color: #388e3c;
+      padding: 10px 0;
     }
 
-    /* Student information section */
-    .student-info {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .student-info input {
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-size: 18px;
       padding: 10px;
-      margin: 5px;
-      font-size: 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
     }
 
+    nav a:hover {
+      background-color: #2c6c2f;
+    }
+
+    /* Main Content */
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+      animation: fadeInUp 2s ease-in-out;
+    }
+
+    .content h2 {
+      color: #388e3c;
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 600px;
+      text-align: center;
+      color: #555;
+    }
+
+    /* Routine Table Styling */
     table {
       width: 100%;
+      max-width: 800px;
+      margin-top: 40px;
       border-collapse: collapse;
       background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      animation: fadeIn 1.5s ease;
     }
 
     th, td {
-      border: 1px solid #ccc;
       padding: 12px;
       text-align: center;
+      border: 1px solid #ccc;
     }
 
-    /* Footer buttons */
-    .footer-buttons {
-      text-align: center;
-      margin-top: 20px;
+    th {
+      background-color: #4caf50;
+      color: white;
     }
 
-    .footer-buttons button {
-      margin: 0 10px;
-      padding: 12px 20px;
+    .button {
+      padding: 15px 30px;
       background-color: #ff9800;
       color: white;
       border: none;
       border-radius: 5px;
-      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      animation: bounce 2s infinite;
     }
+
+    .button:hover {
+      background-color: #f57c00;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .content h2 {
+        font-size: 24px;
+      }
+
+      .content p {
+        font-size: 16px;
+      }
+
+      nav a {
+        font-size: 16px;
+        margin: 0 10px;
+      }
+
+      table {
+        width: 100%;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
   </style>
 </head>
 <body>
 
-  <h1>📘 My Stylish Routine</h1>
-
-  <!-- Student Login / Account Section -->
-  <div class="student-info">
-    <h2>Create Account</h2>
-    <input type="text" id="studentName" placeholder="Enter your Name">
-    <input type="email" id="studentEmail" placeholder="Enter your Email">
-    <input type="password" id="studentPassword" placeholder="Create Password">
-    <button onclick="createAccount()">Create Account</button>
+  <!-- Header Section with Profile Picture -->
+  <div class="header">
+    <div class="profile">
+      <img src="https://via.placeholder.com/50" alt="Profile Picture">
+    </div>
+    <div class="name">
+      <p>John Doe</p>
+    </div>
   </div>
 
-  <div class="controls">
-    <input type="time" id="startTime" required>
-    <input type="time" id="endTime" required>
-    <input type="text" id="subject" placeholder="Subject" required>
-    <button onclick="addRow()">➕ Add Slot</button>
+  <!-- Navigation Bar -->
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">My Routine</a>
+    <a href="#">Settings</a>
+    <a href="#">Logout</a>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="content">
+    <h2>Welcome to My Stylish Routine</h2>
+    <p>
+      This is your personalized routine tracker. Add, manage, and save your study or work schedule.
+    </p>
+    <button class="button">Get Started</button>
+
+    <!-- Routine Table -->
+    <table>
+      <tr>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Subject</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>09:00 AM</td>
+        <td>10:00 AM</td>
+        <td>Math</td>
+        <td><button onclick="deleteRow(this)">🗑️</button></td>
+      </tr>
+      <tr>
+        <td>10:30 AM</td>
+        <td>11:30 AM</td>
+        <td>Physics</td>
+        <td><button onclick="deleteRow(this)">🗑️</button></td>
+      </tr>
+    </table>
   </div>
 
-  <table id="routineTable">
-    <tr>
-      <th>Start Time</th>
-      <th>End Time</th>
-      <th>Subject</th>
-      <th>Action</th>
-    </tr>
-  </table>
-
-  <div class="footer-buttons">
-    <button onclick="saveRoutine()">💾 Save</button>
-    <button onclick="loadRoutine()">🔁 Load</button>
-    <button onclick="resetRoutine()">❌ Reset</button>
-  </div>
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2025 My Stylish Routine. All Rights Reserved.</p>
+  </footer>
 
   <script>
-    // Create account function
-    function createAccount() {
-      let name = document.getElementById("studentName").value;
-      let email = document.getElementById("studentEmail").value;
-      let password = document.getElementById("studentPassword").value;
-
-      if (!name || !email || !password) {
-        alert("Please fill all fields!");
-        return;
-      }
-
-      // Create a user object
-      let user = {
-        name: name,
-        email: email,
-        password: password
-      };
-
-      // Save the user object to localStorage
-      localStorage.setItem("user", JSON.stringify(user));
-
-      alert("Account created successfully!");
-    }
-
-    // Add slot to routine
-    function addRow() {
-      let start = document.getElementById("startTime").value;
-      let end = document.getElementById("endTime").value;
-      let subject = document.getElementById("subject").value;
-
-      if (!start || !end || !subject) {
-        alert("সব ঘর পূরণ করো!");
-        return;
-      }
-
-      let table = document.getElementById("routineTable");
-      let row = table.insertRow();
-      row.innerHTML = `
-        <td><input class="time" value="${start}"></td>
-        <td><input class="time" value="${end}"></td>
-        <td><input class="subject" value="${subject}"></td>
-        <td><button onclick="deleteRow(this)">🗑️</button></td>
-      `;
-
-      document.getElementById("startTime").value = "";
-      document.getElementById("endTime").value = "";
-      document.getElementById("subject").value = "";
-    }
-
-    // Delete slot
     function deleteRow(btn) {
       let row = btn.parentNode.parentNode;
       row.parentNode.removeChild(row);
     }
-
-    // Save routine to localStorage
-    function saveRoutine() {
-      let table = document.getElementById("routineTable");
-      let data = [];
-      for (let i = 1; i < table.rows.length; i++) {
-        let row = table.rows[i];
-        data.push({
-          start: row.cells[0].children[0].value,
-          end: row.cells[1].children[0].value,
-          subject: row.cells[2].children[0].value
-        });
-      }
-      localStorage.setItem("myRoutine", JSON.stringify(data));
-      alert("Routine saved ✅");
-    }
-
-    // Load routine from localStorage
-    function loadRoutine() {
-      let data = JSON.parse(localStorage.getItem("myRoutine") || "[]");
-      let table = document.getElementById("routineTable");
-      table.innerHTML = `
-        <tr>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Subject</th>
-          <th>Action</th>
-        </tr>
-      `;
-      data.forEach(item => {
-        let row = table.insertRow();
-        row.innerHTML = `
-          <td><input class="time" value="${item.start}"></td>
-          <td><input class="time" value="${item.end}"></td>
-          <td><input class="subject" value="${item.subject}"></td>
-          <td><button onclick="deleteRow(this)">🗑️</button></td>
-        `;
-      });
-    }
-
-    // Reset routine
-    function resetRoutine() {
-      if (confirm("তুই কি সত্যিই সব মুছে ফেলতে চাস?")) {
-        localStorage.removeItem("myRoutine");
-        loadRoutine();
-      }
-    }
-
-    window.onload = loadRoutine;
   </script>
 
 </body>
