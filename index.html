@@ -192,7 +192,8 @@
   <!-- Header Section with Profile Picture -->
   <div class="header">
     <div class="profile">
-      <img src="https://via.placeholder.com/50" alt="Profile Picture">
+      <input type="file" id="profilePic" onchange="previewProfilePic()" />
+      <img id="profileImage" src="https://via.placeholder.com/50" alt="Profile Picture">
     </div>
     <div class="name">
       <p>John Doe</p>
@@ -244,6 +245,18 @@
   </footer>
 
   <script>
+    // Function to preview the uploaded profile picture
+    function previewProfilePic() {
+      const file = document.getElementById('profilePic').files[0];
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        document.getElementById('profileImage').src = reader.result;
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
     function deleteRow(btn) {
       let row = btn.parentNode.parentNode;
       row.parentNode.removeChild(row);
