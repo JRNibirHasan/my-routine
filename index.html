@@ -1,126 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Nibir's Routine</title>
+  <title>📘 My Stylish Routine</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #e8f5e9);
       margin: 0;
-      padding: 20px;
+      padding: 30px;
     }
+
     h1 {
       text-align: center;
+      color: #2e7d32;
+      animation: fadeIn 1s ease-in;
     }
-    .controls, .routine-grid {
-      max-width: 800px;
-      margin: auto;
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      animation: slideIn 1s ease;
     }
+
     .controls input, .controls button {
-      margin: 5px;
-      padding: 8px;
+      padding: 10px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      font-size: 16px;
     }
+
+    .controls button {
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .controls button:hover {
+      background-color: #388e3c;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      animation: fadeIn 1.5s ease;
     }
+
     th, td {
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
     }
-    td input {
+
+    input.time, input.subject {
       width: 90%;
       padding: 5px;
+      border: none;
+      background: #f9f9f9;
+      text-align: center;
+      font-weight: bold;
     }
-    .btn-group {
+
+    .footer-buttons {
       text-align: center;
       margin-top: 20px;
     }
-    button {
-      padding: 10px 20px;
+
+    .footer-buttons button {
+      margin: 0 10px;
+      padding: 10px 15px;
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
       cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .footer-buttons button:hover {
+      background-color: #f57c00;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-50px); }
+      to { opacity: 1; transform: translateX(0); }
     }
   </style>
 </head>
 <body>
-  <h1>📅 Nibir's 24-Hour Custom Routine</h1>
+
+  <h1>📘 My Stylish Routine</h1>
 
   <div class="controls">
-    <input type="time" id="startTime" placeholder="Start Time">
-    <input type="time" id="endTime" placeholder="End Time">
-    <input type="text" id="subject" placeholder="Subject">
-    <button onclick="addSlot()">➕ Add Slot</button>
+    <input type="time" id="startTime" required>
+    <input type="time" id="endTime" required>
+    <input type="text" id="subject" placeholder="Subject" required>
+    <button onclick="addRow()">➕ Add Slot</button>
   </div>
 
-  <div class="routine-grid">
-    <table id="routineTable">
-      <tr><th>Time</th><th>Subject</th><th>✖️</th></tr>
-    </table>
-  </div>
+  <table id="routineTable">
+    <tr>
+      <th>Start Time</th>
+      <th>End Time</th>
+      <th>Subject</th>
+      <th>Action</th>
+    </tr>
+  </table>
 
-  <div class="btn-group">
+  <div class="footer-buttons">
     <button onclick="saveRoutine()">💾 Save</button>
-    <button onclick="loadRoutine()">📥 Load</button>
-    <button onclick="clearRoutine()">♻️ Reset</button>
+    <button onclick="loadRoutine()">🔁 Load</button>
+    <button onclick="resetRoutine()">❌ Reset</button>
   </div>
 
   <script>
-    function addSlot() {
-      const start = document.getElementById('startTime').value;
-      const end = document.getElementById('endTime').value;
-      const subject = document.getElementById('subject').value;
-      if (!start || !end || !subject) return alert("সব তথ্য দিন!");
-      
-      const row = document.createElement('tr');
+    function addRow() {
+      let start = document.getElementById("startTime").value;
+      let end = document.getElementById("endTime").value;
+      let subject = document.getElementById("subject").value;
+
+      if (!start || !end || !subject) {
+        alert("সব ঘর পূরণ করো!");
+        return;
+      }
+
+      let table = document.getElementById("routineTable");
+      let row = table.insertRow();
       row.innerHTML = `
-        <td>${start} - ${end}</td>
-        <td><input type="text" value="${subject}"></td>
-        <td><button onclick="this.closest('tr').remove()">❌</button></td>
+        <td><input class="time" value="${start}"></td>
+        <td><input class="time" value="${end}"></td>
+        <td><input class="subject" value="${subject}"></td>
+        <td><button onclick="deleteRow(this)">🗑️</button></td>
       `;
-      document.getElementById('routineTable').appendChild(row);
-      document.getElementById('startTime').value = '';
-      document.getElementById('endTime').value = '';
-      document.getElementById('subject').value = '';
+
+      document.getElementById("startTime").value = "";
+      document.getElementById("endTime").value = "";
+      document.getElementById("subject").value = "";
+    }
+
+    function deleteRow(btn) {
+      let row = btn.parentNode.parentNode;
+      row.parentNode.removeChild(row);
     }
 
     function saveRoutine() {
-      const rows = document.querySelectorAll('#routineTable tr');
-      const data = [];
-      rows.forEach((row, i) => {
-        if (i === 0) return;
-        const time = row.children[0].textContent;
-        const subject = row.children[1].querySelector('input').value;
-        data.push({ time, subject });
-      });
-      localStorage.setItem('nibirRoutine', JSON.stringify(data));
-      alert("✅ Routine saved!");
+      let table = document.getElementById("routineTable");
+      let data = [];
+      for (let i = 1; i < table.rows.length; i++) {
+        let row = table.rows[i];
+        data.push({
+          start: row.cells[0].children[0].value,
+          end: row.cells[1].children[0].value,
+          subject: row.cells[2].children[0].value
+        });
+      }
+      localStorage.setItem("myRoutine", JSON.stringify(data));
+      alert("Routine saved ✅");
     }
 
     function loadRoutine() {
-      const data = JSON.parse(localStorage.getItem('nibirRoutine')) || [];
-      document.querySelectorAll('#routineTable tr:not(:first-child)').forEach(tr => tr.remove());
+      let data = JSON.parse(localStorage.getItem("myRoutine") || "[]");
+      let table = document.getElementById("routineTable");
+      table.innerHTML = `
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Subject</th>
+          <th>Action</th>
+        </tr>
+      `;
       data.forEach(item => {
-        const row = document.createElement('tr');
+        let row = table.insertRow();
         row.innerHTML = `
-          <td>${item.time}</td>
-          <td><input type="text" value="${item.subject}"></td>
-          <td><button onclick="this.closest('tr').remove()">❌</button></td>
+          <td><input class="time" value="${item.start}"></td>
+          <td><input class="time" value="${item.end}"></td>
+          <td><input class="subject" value="${item.subject}"></td>
+          <td><button onclick="deleteRow(this)">🗑️</button></td>
         `;
-        document.getElementById('routineTable').appendChild(row);
       });
     }
 
-    function clearRoutine() {
-      if (confirm("সব মুছে ফেলতে চাও?")) {
-        localStorage.removeItem('nibirRoutine');
+    function resetRoutine() {
+      if (confirm("তুই কি সত্যিই সব মুছে ফেলতে চাস?")) {
+        localStorage.removeItem("myRoutine");
         loadRoutine();
       }
     }
 
-    loadRoutine();
+    window.onload = loadRoutine;
   </script>
+
 </body>
 </html>
