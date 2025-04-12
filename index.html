@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>পরীক্ষার রুটিন</title>
+    <title>দৈনিক রুটিন</title>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -148,31 +148,27 @@
 
     <div id="body" class="light-mode">
         <div class="container">
-            <h1>পরীক্ষার রুটিন</h1>
+            <h1>দৈনিক রুটিন</h1>
 
             <table id="schedule">
                 <thead>
                     <tr>
-                        <th>দিন</th>
-                        <th>বিষয়</th>
                         <th>সময়</th>
+                        <th>কাজ</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>সোমবার</td>
-                        <td><input type="text" value="গণিত" /></td>
-                        <td><input type="time" value="09:00" /></td>
+                        <td>সকাল ৬:০০</td>
+                        <td><input type="text" value="প্রার্থনা" /></td>
                     </tr>
                     <tr>
-                        <td>মঙ্গলবার</td>
-                        <td><input type="text" value="রসায়ন" /></td>
-                        <td><input type="time" value="10:00" /></td>
+                        <td>সকাল ৭:০০</td>
+                        <td><input type="text" value="ব্যায়াম" /></td>
                     </tr>
                     <tr>
-                        <td>বুধবার</td>
-                        <td><input type="text" value="শারীরিক বিজ্ঞান" /></td>
-                        <td><input type="time" value="11:00" /></td>
+                        <td>সকাল ৮:০০</td>
+                        <td><input type="text" value="পড়াশোনা" /></td>
                     </tr>
                 </tbody>
             </table>
@@ -195,9 +191,8 @@
             const newRow = document.createElement("tr");
 
             newRow.innerHTML = `
-                <td><input type="text" placeholder="দিন" /></td>
-                <td><input type="text" placeholder="বিষয়" /></td>
-                <td><input type="time" /></td>
+                <td><input type="text" placeholder="সময়" /></td>
+                <td><input type="text" placeholder="কাজ" /></td>
             `;
             table.appendChild(newRow);
         }
@@ -205,16 +200,15 @@
         function saveSchedule() {
             const rows = document.querySelectorAll("#schedule tbody tr");
             rows.forEach(row => {
-                const day = row.children[0].querySelector("input").value;
-                const subject = row.children[1].querySelector("input").value;
-                const time = row.children[2].querySelector("input").value;
-                console.log(`দিন: ${day}, বিষয়: ${subject}, সময়: ${time}`);
+                const time = row.children[0].querySelector("input").value;
+                const task = row.children[1].querySelector("input").value;
+                console.log(`সময়: ${time}, কাজ: ${task}`);
             });
             alert("রুটিন সেভ হয়েছে!");
         }
 
         function resetSchedule() {
-            const inputs = document.querySelectorAll("input[type='text'], input[type='time']");
+            const inputs = document.querySelectorAll("input[type='text']");
             inputs.forEach(input => {
                 input.value = "";
             });
