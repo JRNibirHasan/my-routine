@@ -1,205 +1,231 @@
 <!DOCTYPE html>
-<html>
+<html lang="bn">
 <head>
-  <title>📘 My Stylish Routine</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #e8f5e9);
-      margin: 0;
-      padding: 30px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #2e7d32;
-      animation: fadeIn 1s ease-in;
-    }
-
-    .controls {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-      animation: slideIn 1s ease;
-    }
-
-    .controls input, .controls button {
-      padding: 10px;
-      border: 1px solid #bbb;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    .controls button {
-      background-color: #4caf50;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .controls button:hover {
-      background-color: #388e3c;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      animation: fadeIn 1.5s ease;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 12px;
-      text-align: center;
-    }
-
-    input.time, input.subject {
-      width: 90%;
-      padding: 5px;
-      border: none;
-      background: #f9f9f9;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .footer-buttons {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .footer-buttons button {
-      margin: 0 10px;
-      padding: 10px 15px;
-      background-color: #ff9800;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .footer-buttons button:hover {
-      background-color: #f57c00;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-50px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পরীক্ষার রুটিন</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 0.3s ease;
+        }
+        .container {
+            width: 85%;
+            max-width: 900px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+            transition: all 0.3s ease;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            transition: background-color 0.3s ease;
+        }
+        th {
+            background-color: #2b5d7d;
+            color: white;
+            font-weight: bold;
+        }
+        td {
+            background-color: #fafafa;
+        }
+        tr:nth-child(even) td {
+            background-color: #f2f2f2;
+        }
+        tr:hover td {
+            background-color: #d7e8f4;
+        }
+        input[type="text"], input[type="time"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 90%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
+            outline: none;
+        }
+        input[type="text"]:focus, input[type="time"]:focus {
+            border-color: #2b5d7d;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            transition: transform 0.2s ease;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .add-slot {
+            background-color: #FF7F50;
+            color: white;
+        }
+        .save {
+            background-color: #28a745;
+            color: white;
+        }
+        .reset {
+            background-color: #dc3545;
+            color: white;
+        }
+        .mode-switch {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .mode-switch button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #2b5d7d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: transform 0.2s ease;
+        }
+        .mode-switch button:hover {
+            transform: scale(1.1);
+        }
+        .dark-mode {
+            background-color: #333;
+            color: white;
+        }
+        .dark-mode .container {
+            background-color: #444;
+        }
+        .dark-mode th {
+            background-color: #222;
+        }
+        .dark-mode td {
+            background-color: #555;
+        }
+        .dark-mode tr:nth-child(even) td {
+            background-color: #666;
+        }
+        .dark-mode tr:hover td {
+            background-color: #888;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <h1>📘 My Stylish Routine</h1>
+    <div id="body" class="light-mode">
+        <div class="container">
+            <h1>পরীক্ষার রুটিন</h1>
 
-  <div class="controls">
-    <input type="time" id="startTime" required>
-    <input type="time" id="endTime" required>
-    <input type="text" id="subject" placeholder="Subject" required>
-    <button onclick="addRow()">➕ Add Slot</button>
-  </div>
+            <table id="schedule">
+                <thead>
+                    <tr>
+                        <th>দিন</th>
+                        <th>বিষয়</th>
+                        <th>সময়</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>সোমবার</td>
+                        <td><input type="text" value="গণিত" /></td>
+                        <td><input type="time" value="09:00" /></td>
+                    </tr>
+                    <tr>
+                        <td>মঙ্গলবার</td>
+                        <td><input type="text" value="রসায়ন" /></td>
+                        <td><input type="time" value="10:00" /></td>
+                    </tr>
+                    <tr>
+                        <td>বুধবার</td>
+                        <td><input type="text" value="শারীরিক বিজ্ঞান" /></td>
+                        <td><input type="time" value="11:00" /></td>
+                    </tr>
+                </tbody>
+            </table>
 
-  <table id="routineTable">
-    <tr>
-      <th>Start Time</th>
-      <th>End Time</th>
-      <th>Subject</th>
-      <th>Action</th>
-    </tr>
-  </table>
+            <div class="controls">
+                <button class="btn add-slot" onclick="addSlot()">➕ Add Slot</button>
+                <button class="btn save" onclick="saveSchedule()">✅ Save</button>
+                <button class="btn reset" onclick="resetSchedule()">❌ Reset</button>
+            </div>
 
-  <div class="footer-buttons">
-    <button onclick="saveRoutine()">💾 Save</button>
-    <button onclick="loadRoutine()">🔁 Load</button>
-    <button onclick="resetRoutine()">❌ Reset</button>
-  </div>
+            <div class="mode-switch">
+                <button onclick="toggleMode()">🌙 Light/Dark Mode</button>
+            </div>
+        </div>
+    </div>
 
-  <script>
-    function addRow() {
-      let start = document.getElementById("startTime").value;
-      let end = document.getElementById("endTime").value;
-      let subject = document.getElementById("subject").value;
+    <script>
+        function addSlot() {
+            const table = document.querySelector("#schedule tbody");
+            const newRow = document.createElement("tr");
 
-      if (!start || !end || !subject) {
-        alert("সব ঘর পূরণ করো!");
-        return;
-      }
+            newRow.innerHTML = `
+                <td><input type="text" placeholder="দিন" /></td>
+                <td><input type="text" placeholder="বিষয়" /></td>
+                <td><input type="time" /></td>
+            `;
+            table.appendChild(newRow);
+        }
 
-      let table = document.getElementById("routineTable");
-      let row = table.insertRow();
-      row.innerHTML = `
-        <td><input class="time" value="${start}"></td>
-        <td><input class="time" value="${end}"></td>
-        <td><input class="subject" value="${subject}"></td>
-        <td><button onclick="deleteRow(this)">🗑️</button></td>
-      `;
+        function saveSchedule() {
+            const rows = document.querySelectorAll("#schedule tbody tr");
+            rows.forEach(row => {
+                const day = row.children[0].querySelector("input").value;
+                const subject = row.children[1].querySelector("input").value;
+                const time = row.children[2].querySelector("input").value;
+                console.log(`দিন: ${day}, বিষয়: ${subject}, সময়: ${time}`);
+            });
+            alert("রুটিন সেভ হয়েছে!");
+        }
 
-      document.getElementById("startTime").value = "";
-      document.getElementById("endTime").value = "";
-      document.getElementById("subject").value = "";
-    }
+        function resetSchedule() {
+            const inputs = document.querySelectorAll("input[type='text'], input[type='time']");
+            inputs.forEach(input => {
+                input.value = "";
+            });
+        }
 
-    function deleteRow(btn) {
-      let row = btn.parentNode.parentNode;
-      row.parentNode.removeChild(row);
-    }
-
-    function saveRoutine() {
-      let table = document.getElementById("routineTable");
-      let data = [];
-      for (let i = 1; i < table.rows.length; i++) {
-        let row = table.rows[i];
-        data.push({
-          start: row.cells[0].children[0].value,
-          end: row.cells[1].children[0].value,
-          subject: row.cells[2].children[0].value
-        });
-      }
-      localStorage.setItem("myRoutine", JSON.stringify(data));
-      alert("Routine saved ✅");
-    }
-
-    function loadRoutine() {
-      let data = JSON.parse(localStorage.getItem("myRoutine") || "[]");
-      let table = document.getElementById("routineTable");
-      table.innerHTML = `
-        <tr>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Subject</th>
-          <th>Action</th>
-        </tr>
-      `;
-      data.forEach(item => {
-        let row = table.insertRow();
-        row.innerHTML = `
-          <td><input class="time" value="${item.start}"></td>
-          <td><input class="time" value="${item.end}"></td>
-          <td><input class="subject" value="${item.subject}"></td>
-          <td><button onclick="deleteRow(this)">🗑️</button></td>
-        `;
-      });
-    }
-
-    function resetRoutine() {
-      if (confirm("তুই কি সত্যিই সব মুছে ফেলতে চাস?")) {
-        localStorage.removeItem("myRoutine");
-        loadRoutine();
-      }
-    }
-
-    window.onload = loadRoutine;
-  </script>
+        function toggleMode() {
+            const body = document.getElementById("body");
+            body.classList.toggle("dark-mode");
+            body.classList.toggle("light-mode");
+        }
+    </script>
 
 </body>
 </html>
