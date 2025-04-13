@@ -3,319 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📘 My Stylish Routine</title>
+  <title>Advanced 3D Text Animation</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #f0f4f8, #e3f2fd);
-      color: #333;
+      overflow: hidden;
+      background-color: #111;
     }
-
-    h1 {
-      text-align: center;
-      color: #388e3c;
-      margin-top: 40px;
-      font-size: 40px;
-    }
-
-    .form-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
-
-    .form-container input {
-      margin: 10px;
-      padding: 10px;
-      font-size: 16px;
-      width: 300px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .form-container button {
-      margin: 10px;
-      padding: 10px 20px;
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    .form-container button:hover {
-      background-color: #388e3c;
-    }
-
-    .controls {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .controls input {
-      width: 300px;
-    }
-
-    /* Routine Table Styling */
-    table {
-      width: 100%;
-      max-width: 800px;
-      margin-top: 40px;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      display: none;
-    }
-
-    th, td {
-      padding: 12px;
-      text-align: center;
-      border: 1px solid #ccc;
-    }
-
-    th {
-      background-color: #4caf50;
-      color: white;
-    }
-
-    .footer-buttons {
-      display: none;
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .footer-buttons button {
-      margin: 0 10px;
-      padding: 12px 20px;
-      background-color: #ff9800;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
+    canvas {
+      display: block;
     }
   </style>
 </head>
 <body>
-
-  <h1>📘 My Stylish Routine</h1>
-
-  <!-- Registration/Login Form -->
-  <div class="form-container" id="form-container">
-    <h2>Login or Register</h2>
-    <input type="text" id="username" placeholder="Enter Username">
-    <input type="password" id="password" placeholder="Enter Password">
-    <button onclick="login()">Login</button>
-    <button onclick="showRegistrationForm()">Register</button>
-  </div>
-
-  <!-- Registration Form -->
-  <div class="form-container" id="registration-form" style="display:none;">
-    <h2>Register</h2>
-    <input type="text" id="reg-username" placeholder="Enter Username">
-    <input type="password" id="reg-password" placeholder="Enter Password">
-    <input type="text" id="reg-email" placeholder="Enter Email">
-    <button onclick="register()">Register</button>
-    <button onclick="backToLogin()">Back to Login</button>
-  </div>
-
-  <!-- Profile Section -->
-  <div class="controls" id="profile-section">
-    <h2>Create Your Profile</h2>
-    <input type="text" id="studentName" placeholder="Enter your Name">
-    <input type="text" id="collegeName" placeholder="Enter your College Name">
-    <input type="text" id="department" placeholder="Enter your Department">
-    <input type="text" id="class" placeholder="Enter your Class">
-    <input type="text" id="phoneNumber" placeholder="Enter your Phone Number">
-    <button onclick="saveProfile()">Create Profile</button>
-  </div>
-
-  <!-- Routine Table Section -->
-  <div class="controls" style="display:none;">
-    <input type="time" id="startTime" required>
-    <input type="time" id="endTime" required>
-    <input type="text" id="subject" placeholder="Subject" required>
-    <button onclick="addRow()">➕ Add Slot</button>
-  </div>
-
-  <table id="routineTable" style="display:none;">
-    <tr>
-      <th>Start Time</th>
-      <th>End Time</th>
-      <th>Subject</th>
-      <th>Action</th>
-    </tr>
-  </table>
-
-  <div class="footer-buttons" style="display:none;">
-    <button onclick="saveRoutine()">💾 Save</button>
-    <button onclick="loadRoutine()">🔁 Load</button>
-    <button onclick="resetRoutine()">❌ Reset</button>
-  </div>
+  <!-- Load Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
 
   <script>
-    // Fake Data for Users (You can replace it with real database in production)
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+    // Scene Setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-    // Show Registration Form
-    function showRegistrationForm() {
-      document.getElementById("form-container").style.display = "none";
-      document.getElementById("registration-form").style.display = "flex";
-    }
-
-    // Back to Login
-    function backToLogin() {
-      document.getElementById("registration-form").style.display = "none";
-      document.getElementById("form-container").style.display = "flex";
-    }
-
-    // Registration Function
-    function register() {
-      let username = document.getElementById("reg-username").value;
-      let password = document.getElementById("reg-password").value;
-      let email = document.getElementById("reg-email").value;
-
-      if (!username || !password || !email) {
-        alert("Please fill all fields!");
-        return;
-      }
-
-      let newUser = { username, password, email };
-      users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users));
-
-      alert("Registration successful!");
-      backToLogin();
-    }
-
-    // Login Function
-    function login() {
-      let username = document.getElementById("username").value;
-      let password = document.getElementById("password").value;
-
-      let user = users.find(user => user.username === username && user.password === password);
-      if (user) {
-        alert("Login successful!");
-        document.getElementById("form-container").style.display = "none";
-        document.getElementById("profile-section").style.display = "flex";
-      } else {
-        alert("Invalid credentials!");
-      }
-    }
-
-    // Save Profile Function
-    function saveProfile() {
-      let name = document.getElementById("studentName").value;
-      let college = document.getElementById("collegeName").value;
-      let department = document.getElementById("department").value;
-      let studentClass = document.getElementById("class").value;
-      let phone = document.getElementById("phoneNumber").value;
-
-      if (!name || !college || !department || !studentClass || !phone) {
-        alert("Please fill all fields!");
-        return;
-      }
-
-      let userProfile = { name, college, department, studentClass, phone };
-      localStorage.setItem("userProfile", JSON.stringify(userProfile));
-
-      alert("Profile created successfully!");
-      document.getElementById("profile-section").style.display = "none";
-      document.querySelector(".controls").style.display = "flex";
-      document.querySelector("table").style.display = "table";
-      document.querySelector(".footer-buttons").style.display = "flex";
-    }
-
-    // Add slot to routine
-    function addRow() {
-      let start = document.getElementById("startTime").value;
-      let end = document.getElementById("endTime").value;
-      let subject = document.getElementById("subject").value;
-
-      if (!start || !end || !subject) {
-        alert("সব ঘর পূরণ করো!");
-        return;
-      }
-
-      let table = document.getElementById("routineTable");
-      let row = table.insertRow();
-      row.innerHTML = `
-        <td><input class="time" value="${start}"></td>
-        <td><input class="time" value="${end}"></td>
-        <td><input class="subject" value="${subject}"></td>
-        <td><button onclick="deleteRow(this)">🗑️</button></td>
-      `;
-
-      document.getElementById("startTime").value = "";
-      document.getElementById("endTime").value = "";
-      document.getElementById("subject").value = "";
-    }
-
-    // Delete slot
-    function deleteRow(btn) {
-      let row = btn.parentNode.parentNode;
-      row.parentNode.removeChild(row);
-    }
-
-    // Save routine to localStorage
-    function saveRoutine() {
-      let table = document.getElementById("routineTable");
-      let data = [];
-      for (let i = 1; i < table.rows.length; i++) {
-        let row = table.rows[i];
-        data.push({
-          start: row.cells[0].children[0].value,
-          end: row.cells[1].children[0].value,
-          subject: row.cells[2].children[0].value
-        });
-      }
-      localStorage.setItem("myRoutine", JSON.stringify(data));
-      alert("Routine saved ✅");
-    }
-
-    // Load routine from localStorage
-    function loadRoutine() {
-      let data = JSON.parse(localStorage.getItem("myRoutine") || "[]");
-      let table = document.getElementById("routineTable");
-      table.innerHTML = `
-        <tr>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Subject</th>
-          <th>Action</th>
-        </tr>
-      `;
-      data.forEach(item => {
-        let row = table.insertRow();
-        row.innerHTML = `
-          <td><input class="time" value="${item.start}"></td>
-          <td><input class="time" value="${item.end}"></td>
-          <td><input class="subject" value="${item.subject}"></td>
-          <td><button onclick="deleteRow(this)">🗑️</button></td>
-        `;
+    // Load Text Font
+    const loader = new THREE.FontLoader();
+    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+      // Create Text Geometry
+      const geometry = new THREE.TextGeometry('Nibir 3D Routine', {
+        font: font,
+        size: 10,
+        height: 1,
       });
-    }
 
-    // Reset routine
-    function resetRoutine() {
-      localStorage.removeItem("myRoutine");
-      document.getElementById("routineTable").innerHTML = `
-        <tr>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Subject</th>
-          <th>Action</th>
-        </tr>
-      `;
-      alert("Routine reset ❌");
-    }
+      // Create Material for Text
+      const material = new THREE.MeshPhongMaterial({
+        color: 0x00ff00,
+        shininess: 100,
+      });
+
+      // Create Mesh from Geometry and Material
+      const text = new THREE.Mesh(geometry, material);
+      scene.add(text);
+
+      // Position Text in Scene
+      text.position.set(-25, 0, -50);
+
+      // Add Dynamic Lighting
+      const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+      pointLight.position.set(0, 10, 50);
+      scene.add(pointLight);
+
+      const ambientLight = new THREE.AmbientLight(0x404040, 2); // Soft ambient light
+      scene.add(ambientLight);
+
+      // Add a rotating cube for more complexity
+      const cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
+      const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x00ffff, shininess: 50 });
+      const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+      cube.position.set(30, 0, -70);
+      scene.add(cube);
+
+      // Camera Movement Controls
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+      // Animation Loop for 3D rotation
+      function animate() {
+        requestAnimationFrame(animate);
+
+        // Rotate Text and Cube
+        text.rotation.x += 0.01;
+        text.rotation.y += 0.01;
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+
+        // Update camera position for dynamic effect
+        camera.position.z = Math.sin(Date.now() * 0.001) * 100 + 200;
+
+        controls.update();
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    });
+
+    // Camera Position
+    camera.position.z = 100;
+
+    // Resize Renderer on Window Resize
+    window.addEventListener('resize', function() {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
   </script>
-
 </body>
 </html>
-
